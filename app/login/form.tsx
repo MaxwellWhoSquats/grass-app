@@ -23,6 +23,8 @@ const LoginForm = () => {
 
     if (!response?.error) {
       router.push("/");
+    } else {
+      setError("Invalid Login Credentials");
     }
   };
 

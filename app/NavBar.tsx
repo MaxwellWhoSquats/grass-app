@@ -52,7 +52,10 @@ const NavBar = () => {
           </Link>
         ))}
       </div>
-      <button className="btn btn-primary" onClick={() => signOut()}>
+      <button
+        className="btn btn-primary"
+        onClick={() => signOut({ callbackUrl: "/login" })}
+      >
         Log Out
       </button>
     </nav>
