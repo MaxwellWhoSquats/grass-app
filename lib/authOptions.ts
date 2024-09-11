@@ -1,17 +1,51 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/prisma/db";
 
 export const authOptions: NextAuthOptions = {
+    session: {
+        strategy: "jwt",
+    },
+    
     providers: [
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                email: {},
-                password: {},
+                email: { label: "Email", type: "email" },
+                password: { label: "Password", type: "password" },
             },
             async authorize(credentials, req) {
-                return null;
+
+                if (!credentials?.email || !credentials?.password) {
+                    return null;
+                }
+
+                // Fetch user by email from the database
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.email,
+                    },
+                });
+
+                if (!user) {
+                    return null; // Return null if no user is found
+                }
+
+                const bcrypt = require("bcrypt");
+
+                // Compare the provided password with the stored hashed password
+                const isValid = await bcrypt.compare(credentials.password, user.password);
+
+                if (!isValid) {
+                    return null; // Return null if password is invalid
+                }
+
+                // Return the user object if authentication is successful
+                return {
+                    id: user.id.toString(), // Convert id to string if it's an Int
+                    email: user.email,
+                };
             },
-        })
+        }),
     ],
-}
+};

@@ -8,6 +8,7 @@ import MessagingIcon from "./public/svg/MessagingIcon";
 import Link from "next/link";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 interface Icon {
   component: React.ReactElement;
@@ -51,6 +52,9 @@ const NavBar = () => {
           </Link>
         ))}
       </div>
+      <button className="btn btn-primary" onClick={() => signOut()}>
+        Log Out
+      </button>
     </nav>
   );
 };

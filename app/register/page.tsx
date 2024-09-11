@@ -1,5 +1,4 @@
 import { getServerSession } from "next-auth";
-import React from "react";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
 import RegisterForm from "./form";
