@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ const RegisterForm = () => {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
-    const response = await fetch("/api/auth/register", {
+    const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -20,7 +20,7 @@ const RegisterForm = () => {
 
     const data = await response.json();
     if (response.ok) {
-      setSuccessMessage("User registered successfully");
+      setSuccessMessage("You are now signed in.");
       setEmail("");
       setPassword("");
 
@@ -61,12 +61,11 @@ const RegisterForm = () => {
           <span className="ml-2">{successMessage}</span>
         </div>
       )}
-
       <form
         onSubmit={handleSubmit}
         className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 space-y-4 p-8 rounded-xl mx-auto glass shadow-xl"
       >
-        <h1 className="text-2xl font-extrabold text-center">Register</h1>
+        <h1 className="text-2xl font-extrabold text-center">Login</h1>
         <label className="input input-bordered flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -108,14 +107,14 @@ const RegisterForm = () => {
         </label>
         <div className="flex justify-center">
           <button type="submit" className="btn btn-primary w-1/2">
-            Register
+            Login
           </button>
         </div>
         <div>
           <p className="text-center text-sm">
-            Already have an account?{" "}
-            <Link href="/login" className="text-secondary font-bold">
-              Login
+            Don't have an Account?{" "}
+            <Link href="/register" className="text-secondary font-bold">
+              Register
             </Link>
           </p>
         </div>
@@ -124,4 +123,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

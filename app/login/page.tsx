@@ -2,9 +2,9 @@ import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
-import RegisterForm from "./form";
+import LoginForm from "./form";
 
-const RegisterPage = async () => {
+const LoginPage = async () => {
   const session = await getServerSession(authOptions);
 
   if (session) {
@@ -13,9 +13,9 @@ const RegisterPage = async () => {
 
   return (
     <section className="flex justify-center items-center h-screen bg-green-200">
-      <RegisterForm />
+      <LoginForm />
     </section>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
