@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: validation.error.errors }, { status: 400 });
 
     // Save the inventory item to the database
-    const newCustomerItem = await prisma.customer.create({
+    const newCustomer = await prisma.customer.create({
         data: {
             name: body.name,
             email: body.email,
@@ -26,5 +26,5 @@ export async function POST(request: NextRequest) {
         }
     });
 
-    return NextResponse.json(newCustomerItem, { status: 201 });
+    return NextResponse.json(newCustomer, { status: 201 });
 }
