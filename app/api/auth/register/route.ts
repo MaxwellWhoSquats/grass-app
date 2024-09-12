@@ -6,6 +6,8 @@ import { z } from "zod";
 const createUserSchema = z.object({
     email: z.string().min(1).max(255),
     password: z.string().min(8),
+    firstName: z.string().min(1).max(255),
+    lastName: z.string().min(1).max(255),
     });
 
 export async function POST(request: Request) {
@@ -23,6 +25,8 @@ export async function POST(request: Request) {
         data: {
             email: body.email,
             password: hashedPassword,
+            firstName: body.firstName,
+            lastName: body.lastName
         }
     });
 

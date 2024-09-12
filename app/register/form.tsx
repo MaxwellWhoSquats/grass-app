@@ -1,32 +1,32 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    setSuccessMessage("");
     const response = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, firstName, lastName }),
     });
 
     const data = await response.json();
     if (response.ok) {
-      setSuccessMessage("User registered successfully");
       setEmail("");
       setPassword("");
-
-      setTimeout(() => {
-        setSuccessMessage("");
-      }, 3000);
+      setFirstName("");
+      setLastName("");
+      router.push("/login");
     } else {
       setError(data.error);
 
@@ -43,25 +43,6 @@ const RegisterForm = () => {
           {error}
         </div>
       )}
-      {successMessage && (
-        <div className="flex alert alert-success fixed bottom-4 left-4 z-50 max-w-xs space-x-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span className="ml-2">{successMessage}</span>
-        </div>
-      )}
-
       <form
         onSubmit={handleSubmit}
         className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 space-y-4 p-8 rounded-xl mx-auto glass shadow-xl"
@@ -106,6 +87,24 @@ const RegisterForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        <div id="nameInputs" className="flex gap-2">
+          <label className="input input-bordered flex items-center grow min-w-0">
+            <input
+              className="grow"
+              placeholder="John"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </label>
+          <label className="input input-bordered flex items-center grow min-w-0">
+            <input
+              className="grow"
+              placeholder="Smith"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </label>
+        </div>
         <div className="flex justify-center">
           <button type="submit" className="btn btn-primary w-1/2">
             Register
