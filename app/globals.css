@@ -18,6 +18,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 
 const InventoryPage = async () => {
   // Check if user is loggin in, if not, redirect to login page
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const authenticated = await getServerSession(authOptions);
+  if (!authenticated) {
     redirect("/login");
   }
 

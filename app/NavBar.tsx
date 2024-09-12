@@ -9,6 +9,7 @@ import Link from "next/link";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import GrassIcon from "./public/svg/GrassIcon";
 
 interface Icon {
   component: React.ReactElement;
@@ -35,25 +36,28 @@ const NavBar = () => {
     "hover:bg-green-950 hover:bg-opacity-50 transition hover:ease-linear flex w-10 h-5/6 mx-2 my-1 items-center justify-center rounded tooltip tooltip-bottom";
 
   return (
-    <nav className="flex mb-5 px-4 py-2 items-center justify-between border-b border-gray-300">
-      <div className="flex w-96 h-8 items-center justify-between bg-gradient-to-r from-green-900 to-green-600 rounded-md shadow-xl">
-        {icons.map((icon, index) => (
-          <Link
-            href={icon.name === "Home" ? "/" : `/${icon.name.toLowerCase()}`}
-            key={index}
-            className={classNames(linkBaseClasses, {
-              "bg-green-950 bg-opacity-50":
-                selectedPage === `/${icon.name.toLowerCase()}` ||
-                (icon.name === "Home" && selectedPage === "/"),
-            })}
-            data-tip={icon.name}
-          >
-            <div className="w-5 h-5">{icon.component}</div>
-          </Link>
-        ))}
-      </div>
+    <nav className="flex mb-2 mx-5 py-2 items-center justify-between border-b border-gray-300">
+      <section id="navLeft" className="flex space-x-8">
+        <GrassIcon />
+        <div className="flex w-96 h-8 items-center justify-between bg-gradient-to-r from-green-900 to-green-600 rounded-md shadow-xl">
+          {icons.map((icon, index) => (
+            <Link
+              href={icon.name === "Home" ? "/" : `/${icon.name.toLowerCase()}`}
+              key={index}
+              className={classNames(linkBaseClasses, {
+                "bg-green-950 bg-opacity-50":
+                  selectedPage === `/${icon.name.toLowerCase()}` ||
+                  (icon.name === "Home" && selectedPage === "/"),
+              })}
+              data-tip={icon.name}
+            >
+              <div className="w-5 h-5">{icon.component}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
       <button
-        className="btn btn-primary"
+        className="btn btn-primary btn-sm"
         onClick={() => signOut({ callbackUrl: "/login" })}
       >
         Log Out

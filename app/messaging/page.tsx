@@ -1,18 +1,22 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
+import NavBar from "../NavBar";
 
 const MessagingPage = async () => {
   // Check if user is loggin in, if not, redirect to login page
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const authenticated = await getServerSession(authOptions);
+  if (!authenticated) {
     redirect("/login");
   }
 
   return (
-    <div>
-      <h1>Messaging Management</h1>
-    </div>
+    <>
+      <NavBar />
+      <section id="heading" className="mx-5">
+        <h1>Messages</h1>
+      </section>
+    </>
   );
 };
 
