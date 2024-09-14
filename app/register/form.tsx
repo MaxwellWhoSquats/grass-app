@@ -8,6 +8,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [title, setTitle] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -17,7 +18,7 @@ const RegisterForm = () => {
     const response = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, firstName, lastName }),
+      body: JSON.stringify({ email, password, firstName, lastName, title }),
     });
 
     const data = await response.json();
@@ -26,6 +27,7 @@ const RegisterForm = () => {
       setPassword("");
       setFirstName("");
       setLastName("");
+      setTitle("");
       router.push("/login");
     } else {
       setError(data.error);
@@ -105,6 +107,14 @@ const RegisterForm = () => {
             />
           </label>
         </div>
+        <label className="input input-bordered flex items-center grow min-w-0">
+          <input
+            className="grow"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </label>
         <div className="flex justify-center">
           <button type="submit" className="btn btn-primary w-1/2">
             Register

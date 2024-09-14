@@ -23,6 +23,10 @@ h1 {
   font-weight: bold;
 }
 
+h2 {
+  font-size: 1.2rem;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

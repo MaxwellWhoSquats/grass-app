@@ -8,6 +8,7 @@ const createUserSchema = z.object({
     password: z.string().min(8),
     firstName: z.string().min(1).max(255),
     lastName: z.string().min(1).max(255),
+    title: z.string().min(1).max(255),
     });
 
 export async function POST(request: Request) {
@@ -26,7 +27,8 @@ export async function POST(request: Request) {
             email: body.email,
             password: hashedPassword,
             firstName: body.firstName,
-            lastName: body.lastName
+            lastName: body.lastName,
+            title: body.title
         }
     });
 
