@@ -8,12 +8,35 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  password  String
-  firstName String?
-  lastName  String?
-  title     String?
+  id             Int            @id @default(autoincrement())
+  email          String         @unique
+  password       String
+  firstName      String?
+  lastName       String?
+  title          String?
+  conversations1 Conversation[] @relation("UserConversations1")
+  conversations2 Conversation[] @relation("UserConversations2")
+  messages       Message[]
+}
+
+model Conversation {
+  id        Int       @id @default(autoincrement())
+  user1Id   Int
+  user1     User      @relation("UserConversations1", fields: [user1Id], references: [id])
+  user2Id   Int
+  user2     User      @relation("UserConversations2", fields: [user2Id], references: [id])
+  messages  Message[]
+  createdAt DateTime  @default(now())
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  content        String
+  createdAt      DateTime     @default(now())
+  senderId       Int
+  sender         User         @relation(fields: [senderId], references: [id])
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
 }
 
 model Product {
