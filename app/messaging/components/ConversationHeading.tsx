@@ -18,11 +18,9 @@ const ConversationHeading = ({
           : "bg-slate-300 bg-opacity-40 hover:bg-green-950 hover:bg-opacity-60 hover:text-white"
       }`}
     >
-      {/* Avatar */}
       <div className="p-3 rounded-full bg-green-600 flex justify-center items-center font-semibold text-white">
         {(user.firstName?.charAt(0) ?? "") + (user.lastName?.charAt(0) ?? "")}
       </div>
-      {/* User Info */}
       <div>
         <h2 className="font-semibold tracking-wide">
           {user.firstName} {user.lastName}

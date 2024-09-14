@@ -2,16 +2,25 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
 import NavBar from "../NavBar";
-import getUsers from "../actions/getUsers";
 import ConversationWrapper from "./components/ConversationWrapper";
+import prisma from "@/prisma/db";
 
 const MessagingPage = async () => {
-  const authenticated = await getServerSession(authOptions);
-  if (!authenticated) {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || !session.user.id) {
     redirect("/login");
   }
 
-  const users = await getUsers();
+  const currentUserId = Number(session.user.id);
+
+  // Fetch the current user's details
+  const currentUser = await prisma.user.findUnique({
+    where: { id: currentUserId },
+  });
+
+  if (!currentUser) {
+    redirect("/login");
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -21,7 +30,7 @@ const MessagingPage = async () => {
           <h1 className="text-3xl font-bold text-gray-800">Messages</h1>
         </section>
         <div className="flex flex-1 overflow-hidden px-5 mt-4 mb-6">
-          <ConversationWrapper users={users} />
+          <ConversationWrapper currentUser={currentUser} />
         </div>
       </main>
     </div>

@@ -11,11 +11,11 @@ const startConversationSchema = z.object({
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!session || !session.user || !session.user.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const userId = Number(session.user.id);;
+  const userId = Number(session.user.id);
 
   try {
     const body = await request.json();
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     if (userId === otherUserId) {
       return NextResponse.json(
-        { error: 'Cannot start a conversation with yourself' },
+        { error: "Cannot start a conversation with yourself" },
         { status: 400 }
       );
     }
@@ -54,14 +54,18 @@ export async function POST(request: NextRequest) {
           user1Id: userId,
           user2Id: otherUserId,
         },
+        include: {
+          user1: true,
+          user2: true,
+        },
       });
     }
 
     return NextResponse.json(conversation);
   } catch (error: unknown) {
     const errorMessage =
-      error instanceof Error ? error.message : 'An unknown error occurred';
-    console.error('Error starting conversation:', errorMessage);
+      error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Error starting conversation:", errorMessage);
     return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }
