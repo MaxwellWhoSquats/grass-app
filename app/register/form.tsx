@@ -116,7 +116,10 @@ const RegisterForm = () => {
           />
         </label>
         <div className="flex justify-center">
-          <button type="submit" className="btn btn-primary w-1/2">
+          <button
+            type="submit"
+            className="btn bg-green-500 text-white border-green-500 w-1/2 hover:bg-green-800 hover:border-green-800"
+          >
             Register
           </button>
         </div>

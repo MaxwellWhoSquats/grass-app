@@ -12,7 +12,7 @@ const LoginPage = async () => {
   }
 
   return (
-    <section className="flex justify-center items-center h-screen bg-green-200">
+    <section className="flex justify-center items-center h-screen bg-gradient-to-r from-green-400 to-green-200">
       <LoginForm />
     </section>
   );
